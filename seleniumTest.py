@@ -8,6 +8,8 @@ from selenium.webdriver.common.by import By
 
 logger = logging.getLogger('mylogger')
 options = webdriver.ChromeOptions()
+device = ['Pixel 7','iPhone 12 Pro']
+
 
 def screenshot(driver, logger, reason):
    Screenshot_document = str(datetime.now().year) + str(datetime.now().month) + str(datetime.now().day)
@@ -54,22 +56,14 @@ def screenshot_stopcard(driver,logger,stopcard_count):
       screenshot(driver,logger,"stopcard")
       logger.warning( str(i+1) + "th screenshot to be recorded ")
 
-options.add_experimental_option('mobileEmulation',{'deviceName':'Pixel 7'})
-driver = webdriver.Chrome(options=options)
-to_homepage(driver)
-screenshot(driver, logger, "homepage")
-count_creditcard_item_list(driver, logger)
-screenshot(driver, logger, "count creditcard item list")
-creditcardlist_to_cardinfo(driver)
-screenshot_stopcard(driver,logger,count_stopcard(driver,logger))
-
-options.add_experimental_option('mobileEmulation',{'deviceName':'iPhone 12 Pro'})
-driver = webdriver.Chrome(options=options)
-to_homepage(driver)
-screenshot(driver, logger, "homepage")
-count_creditcard_item_list(driver, logger)
-screenshot(driver, logger, "count creditcard item list")
-creditcardlist_to_cardinfo(driver)
-screenshot_stopcard(driver,logger,count_stopcard(driver,logger))
+for i in device:
+   options.add_experimental_option('mobileEmulation',{'deviceName':i})
+   driver = webdriver.Chrome(options=options)
+   to_homepage(driver)
+   screenshot(driver, logger, "homepage")
+   count_creditcard_item_list(driver, logger)
+   screenshot(driver, logger, "count creditcard item list")
+   creditcardlist_to_cardinfo(driver)
+   screenshot_stopcard(driver,logger,count_stopcard(driver,logger))
 
 driver.close()
